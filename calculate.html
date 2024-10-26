@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate Total Fees</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        
+        let userData = [];
+
+        
+        function calculateFees() {
+            const prices = {
+                'firstaid': 1500,
+                'sewing': 1500,
+                'landscaping': 1500,
+                'lifeskills': 1500,
+                'childminding': 750,
+                'cooking': 750,
+                'gardenmaintenance': 750
+            };
+
+            let selectedCourses = [];
+            let totalFees = 0;
+
+            
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(course => {
+                selectedCourses.push(course.value);
+                totalFees += prices[course.value];
+            });
+
+            
+            let discount = 0;
+            if (selectedCourses.length === 2) {
+                discount = 0.05;
+            } else if (selectedCourses.length === 3) {
+                discount = 0.10;
+            } else if (selectedCourses.length > 3) {
+                discount = 0.15;
+            }
+
+            
+            const vat = 0.15;
+            let finalTotal = totalFees * (1 + vat) * (1 - discount);
+            finalTotal = finalTotal.toFixed(2);
+
+            
+            document.getElementById('totalFees').innerText = 'Total Fees (incl. VAT): R ' + finalTotal;
+        }
+
+        
+        function storeUserData() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+
+            let selectedCourses = [];
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(course => {
+                selectedCourses.push(course.value);
+            });
+
+            const user = {
+                name: name,
+                phone: phone,
+                email: email,
+                courses: selectedCourses
+            };
+
+            userData.push(user);
+
+            console.log("User Data Stored: ", userData);
+            alert("Your data has been submitted!");
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="logo-section">
+                <img src="_images/XHAW_Logo1.png" alt="Logo">
+                <h1>Calculate Total Fees</h1>
+            </div>
+
+            <div class="box" style="text-align: center; max-width: 600px; margin: 0 auto; padding: 20px;">
+                <h2>Fill in your details and select courses:</h2>
+                <form style="display: flex; flex-direction: column; align-items: center;">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required><br><br>
+
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" required><br><br>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required><br><br>
+
+                    <h3>Select Courses:</h3>
+                    <div style="text-align: center; width: 100%;">
+                        <div style="text-align: left; display: inline-block; margin: 0 auto;">
+                            <label>
+                                <input type="checkbox" id="firstaid" name="course" value="firstaid">
+                                First Aid (R1500)
+                            </label><br>
+
+                            <label>
+                                <input type="checkbox" id="sewing" name="course" value="sewing">
+                                Sewing (R1000)
+                            </label><br>
+
+                            <label>
+                                <input type="checkbox" id="landscaping" name="course" value="landscaping">
+                                Landscaping (R1200)
+                            </label><br>
+
+                            <label>
+                                <input type="checkbox" id="lifeskills" name="course" value="lifeskills">
+                                Life Skills (R1300)
+                            </label><br>
+
+                            <label>
+                                <input type="checkbox" id="childminding" name="course" value="childminding">
+                                Child Minding (R700)
+                            </label><br>
+
+                            <label>
+                                <input type="checkbox" id="cooking" name="course" value="cooking">
+                                Cooking (R800)
+                            </label><br>
+
+                            <label>
+                                <input type="checkbox" id="gardenmaintenance" name="course" value="gardenmaintenance">
+                                Garden Maintenance (R750)
+                            </label><br><br>
+                        </div>
+                    </div>
+
+                    <button type="button" class="button" onclick="calculateFees()">Calculate Total Fees</button><br><br>
+
+                    <p id="totalFees" style="font-weight: bold;">Total Fees (incl. VAT):</p>
+
+                    
+                    <button type="button" class="button" onclick="storeUserData()">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="6month.html">6-Month Courses</a></li>
+                    <li><a href="6week.html">6-Week Courses</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="calculate.html" class="active">Calculate Total Fees</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</body>
+</html> //just make the prices colerate 
